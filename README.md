@@ -6,7 +6,7 @@ A simple and secure blog system built using **pure PHP**, **MySQLi (OOP)**, and 
 
 ## 🚀 Features
 
-- ✅ Clean folder structure (`public/`, `includes/`, `classes/`, `templates/`)
+- ✅ Clean folder structure (`public/`, `includes/`, `classes/`, `templates/`, `assets/`)
 - ✅ User authentication system (Login, Logout, Session)
 - ✅ Secure password handling using `password_hash` and `password_verify`
 - ✅ CSRF protection for all forms
@@ -19,16 +19,21 @@ A simple and secure blog system built using **pure PHP**, **MySQLi (OOP)**, and 
 ---
 
 ## 📁 Folder Structure
-php-modern-blog/
+modern_blog/
 │
 ├── public/              # Entry point (index, login, dashboard, etc.)
+│   ├── admin/           # Admin dashboard pages
+│   ├── about.php        # About page
+│   ├── article.php      # Article display page
+│   ├── contact.php      # Contact page
+│   ├── index.php        # Homepage
+│   └── login.php        # Login page
 ├── templates/           # Common UI parts (header, footer, navbar)
 ├── includes/            # Core logic (session, auth, db, csrf, etc.)
 ├── classes/             # OOP Classes (User.php, Article.php, etc.)
-├── assets/              # Static assets (CSS, JS, images)
-├── uploads/             # Uploaded files (organized by type)
-└── config/              # Config files (db connection, etc.)
-
+└── assets/              # Static assets
+    ├── admin/           # Admin-specific assets
+    └── website/         # Frontend website assets
 
 ---
 
@@ -36,7 +41,7 @@ php-modern-blog/
 
 **Clone the repo**:
    ```bash
-   git clone git@github.com:osa-eg/php-modern-blog.git
-   cd php-modern-blog
+   git clone https://github.com/yourusername/modern_blog.git
+   cd modern_blog
    ```
 
