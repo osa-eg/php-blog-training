@@ -16,24 +16,6 @@ A simple and secure blog system built using **pure PHP**, **MySQLi (OOP)**, and 
 - ✅ Reusable layout components (header, footer, navbar)
 - ✅ Flash messaging system (coming soon)
 
----
-
-## 📁 Folder Structure
-modern_blog/
-│
-├── public/              # Entry point (index, login, dashboard, etc.)
-│   ├── admin/           # Admin dashboard pages
-│   ├── about.php        # About page
-│   ├── article.php      # Article display page
-│   ├── contact.php      # Contact page
-│   ├── index.php        # Homepage
-│   └── login.php        # Login page
-├── templates/           # Common UI parts (header, footer, navbar)
-├── includes/            # Core logic (session, auth, db, csrf, etc.)
-├── classes/             # OOP Classes (User.php, Article.php, etc.)
-└── assets/              # Static assets
-    ├── admin/           # Admin-specific assets
-    └── website/         # Frontend website assets
 
 ---
 
@@ -41,7 +23,7 @@ modern_blog/
 
 **Clone the repo**:
    ```bash
-   git clone https://github.com/yourusername/modern_blog.git
-   cd modern_blog
+   git clone git@github.com:osa-eg/php-blog-training.git
+   cd php-blog-training
    ```
 
