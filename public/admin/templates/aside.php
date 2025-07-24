@@ -37,18 +37,18 @@
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-speedometer"></i>
+                    <i class="nav-icon bi bi-columns"></i>
                     <p>Categories Management <i class="nav-arrow bi bi-chevron-right"></i> </p>
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="./index.html" class="nav-link">
+                        <a href="./categories.php" class="nav-link">
                             <i class="nav-icon bi bi-circle"></i>
                             <p>All Categories</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./index2.html" class="nav-link">
+                        <a href="./create_category.php" class="nav-link">
                             <i class="nav-icon bi bi-circle"></i>
                             <p>Add New Category</p>
                         </a>
@@ -58,18 +58,18 @@
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-speedometer"></i>
+                    <i class="nav-icon bi bi-people-fill"></i>
                     <p>Writers Management <i class="nav-arrow bi bi-chevron-right"></i> </p>
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="./index.html" class="nav-link">
+                        <a href="./writers.php" class="nav-link">
                             <i class="nav-icon bi bi-circle"></i>
                             <p>All Writers</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./index2.html" class="nav-link">
+                        <a href="./create_writer.php" class="nav-link">
                             <i class="nav-icon bi bi-circle"></i>
                             <p>Add New Writer</p>
                         </a>
@@ -78,18 +78,18 @@
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-speedometer"></i>
+                    <i class="nav-icon bi bi-substack"></i>
                     <p>Articles Management <i class="nav-arrow bi bi-chevron-right"></i> </p>
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="./index.html" class="nav-link">
+                        <a href="./articles.php" class="nav-link">
                             <i class="nav-icon bi bi-circle"></i>
                             <p>All Articles</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./index2.html" class="nav-link">
+                        <a href="./create_article.php" class="nav-link">
                             <i class="nav-icon bi bi-circle"></i>
                             <p>Add New Article</p>
                         </a>
@@ -97,14 +97,14 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"> 
-                    <i class="nav-icon bi bi-speedometer"></i>
+                <a href="./contact_us_messages.php" class="nav-link"> 
+                    <i class="nav-icon bi bi-envelope-arrow-down-fill"></i>
                     <p>Contact Us Messages</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"> 
-                    <i class="nav-icon bi bi-speedometer"></i>
+                <a href="./newsletter_list.php" class="nav-link"> 
+                    <i class="nav-icon bi bi-envelope-at"></i>
                     <p>Newsletter Subscripers</p>
                 </a>
             </li>
