@@ -1,6 +1,9 @@
-<!doctype html>
-<html lang="en">
-<!--begin::Head-->
+<?php 
+require_once __DIR__."/../../../session.php";
+auth();
+
+?>
+
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -24,7 +27,7 @@
     <!--begin::Accessibility Features-->
     <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
-    <link rel="preload" href="./../../assets/admin/css/adminlte.css" as="style" />
+    <link rel="preload" href="<?= url('assets/admin/css/adminlte.css') ?>" as="style" />
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
     <link
@@ -48,7 +51,7 @@
         crossorigin="anonymous" />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="./../../assets/admin/css/adminlte.css" />
+    <link rel="stylesheet" href="<?= url('assets/admin/css/adminlte.css') ?>" />
     <!--end::Required Plugin(AdminLTE)-->
     <!-- apexcharts -->
     <link
@@ -59,11 +62,4 @@
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
 </head>
-<body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
-    <!--begin::App Wrapper-->
-    <div class="app-wrapper">
-      <!--begin::Header-->
-      <?php require_once "./templates/header.php" ?>
-      <!--end::Header-->
-      <!--begin::Sidebar-->
-      <?php require_once "./templates/aside.php" ?>
+

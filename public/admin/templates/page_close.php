@@ -1,3 +1,0 @@
-</body>
-  <!--end::Body-->
-</html>

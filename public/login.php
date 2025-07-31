@@ -1,3 +1,46 @@
+<?php
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once path("/session.php");
+require_once path("/classes/User.php");
+
+use Classes\User;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
+$dotenv->load();
+guest();
+
+use Respect\Validation\Validator;
+use Respect\Validation\Exceptions\Exception;
+
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    // validate name is entered and valid (max:200)
+    try {
+        $emailValidator = Validator::email();
+        $emailValidator->check($_POST['email']);
+
+        $passwordValidator = Validator::stringType()->length(1, 200);
+        $passwordValidator->check($_POST['password']);
+
+        $email = clean_input($_POST['email']);
+        $password = clean_input($_POST['password']);
+
+
+        $user = new User;
+        $output = $user->getByEmail($email);
+        if ($output && password_verify($password, $output['password'])) {
+            $_SESSION['USER'] = $output;
+            header("Location:" . url('admin/'));
+            exit;
+        } else {
+            $errors['email'] = "Incorrect email or password!!";
+        }
+    } catch (Exception $exception) {
+        $errors['email'] = $exception->getMessage();
+    }
+}
+
+?>
 <!doctype html>
 <html lang="en">
 <!--begin::Head-->
@@ -57,19 +100,24 @@
 <body class="login-page bg-body-secondary">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../index2.html"><b>Admin</b>LTE</a>
+            <a href="<?= url()   ?>"><b>Admin</b>LTE</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-                <form action="../index3.html" method="post">
+                <form action="" method="post">
+                    <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" />
+                        <input type="email" name="email" class="form-control" placeholder="Email" />
                         <div class="input-group-text"><span class="bi bi-envelope"></span></div>
+
                     </div>
+                    <?php if (isset($errors['email'])) { ?>
+                        <small class="text-danger"><?= $errors['email'] ?></small>
+                    <?php } ?>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password" />
+                        <input type="password" name="password" class="form-control" placeholder="Password" />
                         <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
                     </div>
                     <!--begin::Row-->
@@ -90,20 +138,6 @@
                     </div>
                     <!--end::Row-->
                 </form>
-                <div class="social-auth-links text-center mb-3 d-grid gap-2">
-                    <p>- OR -</p>
-                    <a href="#" class="btn btn-primary">
-                        <i class="bi bi-facebook me-2"></i> Sign in using Facebook
-                    </a>
-                    <a href="#" class="btn btn-danger">
-                        <i class="bi bi-google me-2"></i> Sign in using Google+
-                    </a>
-                </div>
-                <!-- /.social-auth-links -->
-                <p class="mb-1"><a href="forgot-password.html">I forgot my password</a></p>
-                <p class="mb-0">
-                    <a href="register.html" class="text-center"> Register a new membership </a>
-                </p>
             </div>
             <!-- /.login-card-body -->
         </div>

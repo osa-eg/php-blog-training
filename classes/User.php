@@ -10,9 +10,22 @@ class User
 
     public function __construct()
     {
+        // Database::getInstance() = $instance
         $this->conn = Database::getInstance()->getConnection();
     }
 
+    // 1️⃣ Create - Insert a new user
+    public function createAdminUser()
+    {
+        $password = password_hash("secret", PASSWORD_DEFAULT);
+        $name = "Super Admin";
+        $email = "admin@app.com";
+        $stmt = $this->conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?,?)");
+        $stmt->bind_param("sss", $name , $email , $password );
+        return $stmt->execute();
+    }
+    
+    
     // 1️⃣ Create - Insert a new user
     public function create($name, $email)
     {
@@ -33,6 +46,16 @@ class User
     {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE id = ?");
         $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+    
+    // 3️⃣ Read - Get user by ID
+    public function getByEmail($email)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc();

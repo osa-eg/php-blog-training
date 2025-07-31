@@ -3,8 +3,10 @@ require_once __DIR__ . "/../../../session.php";
 
 
 require_once path("/classes/Category.php");
+require_once path("/classes/User.php");
 
 use Classes\Category;
+use Classes\User;
 
 $category = new Category;
 $categories = $category->getAll();
@@ -36,12 +38,12 @@ $categories = $category->getAll();
                     <!--begin::Row-->
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="mb-0">Newsletter Subscripers List</h3>
+                            <h3 class="mb-0">Articles List</h3>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Newsletter Subscripers List </li>
+                                <li class="breadcrumb-item active" aria-current="page">Articles List </li>
                             </ol>
                         </div>
                     </div>
@@ -58,7 +60,8 @@ $categories = $category->getAll();
                     <div class="card mb-4">
                         <div class="card-header ">
                             <div class="d-flex justify-content-between">
-                                <h3 class="card-title">All Newsletter Subscripers</h3>
+                                <h3 class="card-title">All Categories</h3>
+                                <a href="./create_category.php" class="btn btn-primary"> Add New Article</a>
                             </div>
 
 
@@ -69,16 +72,37 @@ $categories = $category->getAll();
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th> Email</th>
-                                        <th>Created At</th>
+                                        <th> Title</th>
+                                        <th> Category</th>
+                                        <th> Wrtier </th>
+                                        <th> Read Duration </th>
+                                        <th> Created At </th>
+                                        <th style="width: 40px">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php for ($i = 0; $i < 10; $i++) : ?>
                                         <tr class="align-middle">
                                             <td><?= $i + 1 ?></td>
-                                            <td> test<?= $i + 1 ?>@app.com</td>
+                                            <td>Title <?= $i + 1 ?></td>
+                                            <td>Category <?= $i + 1 ?> Name</td>
+                                            <td>Writer <?= $i + 1 ?> Name</td>
+                                            <td> <?= random_int(3, 13) ?> Min</td>
                                             <td>11-05-2025 12:10PM</td>
+
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="" class="btn btn-primary btn-sm">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <a href="" class="btn btn-info btn-sm">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+                                                    <a href="" class="btn btn-danger btn-sm">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
                                         </tr>
                                     <?php endfor; ?>
 
@@ -95,6 +119,7 @@ $categories = $category->getAll();
             <!--end::App Content-->
         </main>
         <!--end::App Main-->
+
 
         <?php require_once path("/public/admin/templates/master_footer.php") ?>
     </div>

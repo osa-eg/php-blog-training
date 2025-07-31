@@ -1,7 +1,15 @@
-<?php $title = "ModernBlog - Thoughtful Stories & Insights"; ?>
- <?php require_once "../templates/head.php" ?>
- <?php require_once "../templates/navbar.php" ?>
-    
+<?php 
+require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/../session.php";
+$title = "ModernBlog - Thoughtful Stories & Insights"; 
+?>
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<?php require_once "../templates/head.php" ?>
+
+<body>
+
+    <?php require_once "../templates/navbar.php" ?>
     <!-- Hero Carousel -->
     <section class="hero-carousel" id="heroCarousel">
         <div id="featuredCarousel" class="carousel slide h-100" data-bs-ride="carousel" data-bs-interval="5000">
@@ -10,23 +18,23 @@
                 <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="1"></button>
                 <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="2"></button>
             </div>
-            
+
             <div class="carousel-inner h-100">
                 <div class="carousel-item active">
-                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
-                         class="carousel-bg" alt="Featured Article">
+                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                        class="carousel-bg" alt="Featured Article">
                     <div class="carousel-content">
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-8">
                                     <h1 class="hero-title" data-aos="fade-up">The Future of Remote Work: Trends and Predictions</h1>
                                     <p class="hero-excerpt" data-aos="fade-up" data-aos-delay="100">
-                                        Explore how remote work is evolving and what it means for the future of professional collaboration. 
+                                        Explore how remote work is evolving and what it means for the future of professional collaboration.
                                         From hybrid models to digital nomadism, discover the trends shaping tomorrow's workplace.
                                     </p>
                                     <div class="hero-meta" data-aos="fade-up" data-aos-delay="200">
-                                        <i class="bi bi-person-circle me-2"></i>Sarah Johnson • 
-                                        <i class="bi bi-calendar3 ms-3 me-2"></i>March 15, 2024 • 
+                                        <i class="bi bi-person-circle me-2"></i>Sarah Johnson •
+                                        <i class="bi bi-calendar3 ms-3 me-2"></i>March 15, 2024 •
                                         <i class="bi bi-clock ms-3 me-2"></i>8 min read
                                     </div>
                                     <a href="article.html" class="btn-hero" data-aos="fade-up" data-aos-delay="300">
@@ -37,22 +45,22 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
-                         class="carousel-bg" alt="Featured Article">
+                    <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                        class="carousel-bg" alt="Featured Article">
                     <div class="carousel-content">
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-8">
                                     <h1 class="hero-title">Mastering Minimalist Design Principles</h1>
                                     <p class="hero-excerpt">
-                                        Learn how to create clean, effective designs that communicate clearly and engage users 
+                                        Learn how to create clean, effective designs that communicate clearly and engage users
                                         without overwhelming them. Discover the power of simplicity in modern design.
                                     </p>
                                     <div class="hero-meta">
-                                        <i class="bi bi-person-circle me-2"></i>Mike Chen • 
-                                        <i class="bi bi-calendar3 ms-3 me-2"></i>March 12, 2024 • 
+                                        <i class="bi bi-person-circle me-2"></i>Mike Chen •
+                                        <i class="bi bi-calendar3 ms-3 me-2"></i>March 12, 2024 •
                                         <i class="bi bi-clock ms-3 me-2"></i>6 min read
                                     </div>
                                     <a href="article.html" class="btn-hero">
@@ -63,22 +71,22 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="carousel-item">
-                    <img src="https://images.unsplash.com/photo-1527168027773-0cc890c4f42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
-                         class="carousel-bg" alt="Featured Article">
+                    <img src="https://images.unsplash.com/photo-1527168027773-0cc890c4f42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                        class="carousel-bg" alt="Featured Article">
                     <div class="carousel-content">
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-8">
                                     <h1 class="hero-title">Sustainable Travel: A Guide to Eco-Friendly Adventures</h1>
                                     <p class="hero-excerpt">
-                                        Discover how to explore the world responsibly while minimizing your environmental impact 
+                                        Discover how to explore the world responsibly while minimizing your environmental impact
                                         and supporting local communities. Travel with purpose and consciousness.
                                     </p>
                                     <div class="hero-meta">
-                                        <i class="bi bi-person-circle me-2"></i>Emma Davis • 
-                                        <i class="bi bi-calendar3 ms-3 me-2"></i>March 10, 2024 • 
+                                        <i class="bi bi-person-circle me-2"></i>Emma Davis •
+                                        <i class="bi bi-calendar3 ms-3 me-2"></i>March 10, 2024 •
                                         <i class="bi bi-clock ms-3 me-2"></i>7 min read
                                     </div>
                                     <a href="article.html" class="btn-hero">
@@ -90,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
             </button>
@@ -99,7 +107,7 @@
             </button>
         </div>
     </section>
-    
+
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container" data-aos="fade-up">
@@ -107,7 +115,7 @@
             <p class="mb-0">Join thousands of readers who trust us to deliver the most insightful content every week.</p>
         </div>
     </section>
-    
+
     <!-- Category Filter -->
     <section class="category-filter">
         <div class="container">
@@ -122,50 +130,50 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Articles Section -->
     <section class="articles-section">
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">Latest Articles</h2>
-            
-            <div class="row g-4" >
-                <?php for($i = 1 ; $i <= 6 ; $i++) { ?>
-                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
-                    <article class="article-card">
-                        <div class="article-image">
-                            <img src="https://images.unsplash.com/photo-1518186233392-c232efbf2373?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="The Rise of AI in Creative Industries">
-                            <div class="category-badge">Technology</div>
-                        </div>
-                        <div class="article-content">
-                            <div class="article-meta">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="David Kim" class="author-avatar">
-                                <div>
-                                    <div class="fw-medium">David Kim</div>
-                                    <div class="small">March 8, 2024</div>
+
+            <div class="row g-4">
+                <?php for ($i = 1; $i <= 6; $i++) { ?>
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
+                        <article class="article-card">
+                            <div class="article-image">
+                                <img src="https://images.unsplash.com/photo-1518186233392-c232efbf2373?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="The Rise of AI in Creative Industries">
+                                <div class="category-badge">Technology</div>
+                            </div>
+                            <div class="article-content">
+                                <div class="article-meta">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="David Kim" class="author-avatar">
+                                    <div>
+                                        <div class="fw-medium">David Kim</div>
+                                        <div class="small">March 8, 2024</div>
+                                    </div>
+                                </div>
+                                <h3 class="article-title">
+                                    <a href="article.html">The Rise of AI in Creative Industries</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Explore how artificial intelligence is transforming creative workflows and what it means for artists and designers in the digital age.
+                                </p>
+                                <div class="article-footer">
+                                    <span class="read-time">
+                                        <i class="bi bi-clock me-1"></i>6 min read
+                                    </span>
+                                    <a href="article.php" class="btn-read-more">
+                                        Read More <i class="bi bi-arrow-right"></i>
+                                    </a>
                                 </div>
                             </div>
-                            <h3 class="article-title">
-                                <a href="article.html">The Rise of AI in Creative Industries</a>
-                            </h3>
-                            <p class="article-excerpt">
-                                Explore how artificial intelligence is transforming creative workflows and what it means for artists and designers in the digital age.
-                            </p>
-                            <div class="article-footer">
-                                <span class="read-time">
-                                    <i class="bi bi-clock me-1"></i>6 min read
-                                </span>
-                                <a href="article.php" class="btn-read-more">
-                                    Read More <i class="bi bi-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
+                    </div>
                 <?php } ?>
             </div>
         </div>
     </section>
-    
+
     <!-- Enhanced Load More Section -->
     <section class="load-more-section">
         <div class="container py-5">
@@ -179,15 +187,15 @@
             </button>
         </div>
     </section>
-    
-    
+
+
     <?php require_once "../templates/newsletter.php" ?>
     <!-- Footer -->
     <?php require_once "../templates/footer.php" ?>
-    
-    
 
-    
+
+
+
     <script>
         // Initialize AOS
         AOS.init({
@@ -195,10 +203,9 @@
             once: true,
             offset: 100
         });
-        
+
         // Sample articles data
-        const articles = [
-            {
+        const articles = [{
                 id: 1,
                 title: "The Rise of AI in Creative Industries",
                 excerpt: "Explore how artificial intelligence is transforming creative workflows and what it means for artists and designers in the digital age.",
@@ -298,53 +305,53 @@
                 image: "https://images.unsplash.com/photo-1586953209026-b85adf3b3ca5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
             }
         ];
-        
+
         let currentFilter = 'all';
         let articlesPerPage = 6;
         let currentPage = 1;
-        
+
         // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
         const htmlElement = document.documentElement;
-        
+
         // Load saved theme
         const savedTheme = localStorage.getItem('theme') || 'light';
         htmlElement.setAttribute('data-bs-theme', savedTheme);
         updateThemeIcon(savedTheme);
-        
+
         themeToggle.addEventListener('click', () => {
             const currentTheme = htmlElement.getAttribute('data-bs-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
+
             htmlElement.setAttribute('data-bs-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateThemeIcon(newTheme);
         });
-        
+
         function updateThemeIcon(theme) {
             themeIcon.className = theme === 'dark' ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
         }
-        
+
         // Navbar scroll effect
         const navbar = document.getElementById('mainNavbar');
         let lastScrollTop = 0;
-        
+
         window.addEventListener('scroll', () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
+
             if (scrollTop > 100) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
-            
+
             lastScrollTop = scrollTop;
         });
-        
+
         // Scroll to top button
         const scrollToTopBtn = document.getElementById('scrollToTop');
-        
+
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
                 scrollToTopBtn.classList.add('show');
@@ -352,45 +359,45 @@
                 scrollToTopBtn.classList.remove('show');
             }
         });
-        
+
         scrollToTopBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
         });
-               
-      
-    
+
+
+
         // Newsletter form handling
         const newsletterForm = document.querySelector('.newsletter-form');
-        
+
         newsletterForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const emailInput = newsletterForm.querySelector('input[type="email"]');
             const email = emailInput.value.trim();
-            
+
             // Basic email validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            
+
             if (!email) {
                 showFormMessage('Please enter your email address.', 'error');
                 return;
             }
-            
+
             if (!emailRegex.test(email)) {
                 showFormMessage('Please enter a valid email address.', 'error');
                 return;
             }
-            
+
             // Show success message
             const btn = newsletterForm.querySelector('button');
             const originalText = btn.textContent;
-            
+
             btn.textContent = 'Subscribed!';
             btn.style.background = '#10b981';
             btn.disabled = true;
-            
+
             setTimeout(() => {
                 btn.textContent = originalText;
                 btn.style.background = '';
@@ -399,14 +406,14 @@
                 showFormMessage('Thank you for subscribing! You\'ll receive our latest articles soon.', 'success');
             }, 1500);
         });
-        
+
         function showFormMessage(message, type) {
             // Remove existing messages
             const existingMessage = document.querySelector('.newsletter-message');
             if (existingMessage) {
                 existingMessage.remove();
             }
-            
+
             // Create new message
             const messageDiv = document.createElement('div');
             messageDiv.className = `newsletter-message alert ${type === 'error' ? 'alert-danger' : 'alert-success'} mt-3`;
@@ -416,10 +423,10 @@
             messageDiv.style.color = 'white';
             messageDiv.style.textAlign = 'center';
             messageDiv.textContent = message;
-            
+
             // Insert after form
             newsletterForm.parentNode.insertBefore(messageDiv, newsletterForm.nextSibling);
-            
+
             // Remove message after 4 seconds
             setTimeout(() => {
                 if (messageDiv.parentNode) {
@@ -427,21 +434,21 @@
                 }
             }, 4000);
         }
-        
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', () => {
             renderArticles();
-            
+
             // Add stagger animation to hero elements
             const heroElements = document.querySelectorAll('[data-aos]');
             heroElements.forEach((el, index) => {
                 el.style.animationDelay = `${index * 0.1}s`;
             });
         });
-        
+
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
@@ -452,24 +459,24 @@
                 }
             });
         });
-        
+
         // Parallax effect for hero section (with limits to prevent overlap)
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const heroCarousel = document.getElementById('heroCarousel');
-            
+
             if (heroCarousel && scrolled < window.innerHeight) {
                 const parallaxValue = scrolled * 0.3; // Reduced parallax intensity
                 heroCarousel.style.transform = `translateY(${parallaxValue}px)`;
             }
         });
-        
+
         // Add loading animation to cards
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
-        
+
         const cardObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -478,7 +485,7 @@
                 }
             });
         }, observerOptions);
-        
+
         // Observe cards for animation
         setTimeout(() => {
             document.querySelectorAll('.article-card').forEach(card => {
@@ -487,4 +494,5 @@
         }, 100);
     </script>
 </body>
+
 </html>
