@@ -34,6 +34,7 @@ class Category
         $stmt = $this->conn->prepare("SELECT * FROM categories WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
+        
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
@@ -41,7 +42,7 @@ class Category
      // 4️⃣ Update - Update a category's info
     public function update($id, $name)
     {
-        $stmt = $this->conn->prepare("UPDATE categories SET name = ?, WHERE id = ?");
+        $stmt = $this->conn->prepare("UPDATE categories SET name = ? WHERE id = ?");
         $stmt->bind_param("si", $name, $id);
         return $stmt->execute();
     }

@@ -2,28 +2,16 @@
 require_once __DIR__ . "/../../../session.php";
 
 
-require_once path("/classes/Category.php");
-require_once path("/classes/User.php");
-$names = [
-    'Ali',
-    'Mohamed',
-    'Ahmed',
-    'Sayed',
-    'Khaled',
-    'Osama',
-    'Hesham',
-    'Nady',
-    'Zaid',
-    'Momen',
-];
+require_once path("/classes/Writer.php");
 
-use Classes\Category;
+use Classes\Writer;
 
-$category = new Category;
-$categories = $category->getAll();
+$writer = new Writer;
+$writers = $writer->getAll();
 
 
 ?>
+
 
 <!doctype html>
 <html lang="en">
@@ -42,6 +30,7 @@ $categories = $category->getAll();
         <!--end::Sidebar-->
         <!--begin::App Main-->
         <main class="app-main">
+            <?php require_once path("/public/admin/templates/alert.php") ?>
             <!--begin::App Content Header-->
             <div class="app-content-header">
                 <!--begin::Container-->
@@ -83,24 +72,25 @@ $categories = $category->getAll();
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>Name</th>
-                                        <th>Job Title</th>
+                                        <th>Writer</th>
                                         <th>About</th>
                                         <th style="width: 40px">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php for ($i = 0; $i < 10; $i++) : ?>
-                                        <?php
-                                        $firstName = $names[random_int(0, count($names) - 1)];
-                                        $lastName = $names[random_int(0, count($names) - 1)];
-                                        ?>
+                                     <?php foreach ($writers as $writer) : ?>
                                         <tr class="align-middle">
-                                            <td><?= $i + 1 ?></td>
-                                            <td> <?= "$firstName $lastName" ?></td>
-                                            <td> Job <?= $i ?> title</td>
-                                            <td> Lorem ipsum dolor sit amet consectetur.</td>
-
+                                            <td><?= $writer['id'] ?></td>
+                                            <td> 
+                                                <div class="d-flex">
+                                                    <img width="50" height="50" class="img-thumbnail rounded-circle"  src="<?= url($writer['image']) ?>" alt="">
+                                                    <div class="p-2">
+                                                        <span class="d-block"><?= $writer['name'] ?></span>
+                                                        <small><?= $writer['job_title'] ?></small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td><?= $writer['about'] ?></td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="" class="btn btn-primary btn-sm">
@@ -115,7 +105,7 @@ $categories = $category->getAll();
                                                 </div>
                                             </td>
                                         </tr>
-                                    <?php endfor; ?>
+                                    <?php endforeach; ?>
 
                                 </tbody>
                             </table>

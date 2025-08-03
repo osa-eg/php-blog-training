@@ -29,4 +29,22 @@ function path(?string $path = null)
 }
 
 
+function alert(?string $message= "Done Successfully!" , ?bool $success = true  )
+{
+    $_SESSION['alert'] = [
+        'success' => $success,
+        'message' => $message
+    ];
+}
+
+function inputError(array $errors, $input_name  ): string
+{
+    $output = "";
+    if (isset($errors[$input_name])) {
+        $output = ' <small class="text-danger">'.$errors[$input_name] .'</small>';
+    }                                      
+   return $output;
+}
+
+
 ?>

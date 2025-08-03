@@ -6,25 +6,39 @@ use Classes\Category;
 use Respect\Validation\Validator;
 use Respect\Validation\Exceptions\Exception;
 
+$id = (int) $_GET['id'] ?? null;
+if (!$id) {
+    alert("Category Not Presented!", false);
+    header("Location:" . url('admin/categories'));
+    exit;
+} else {
+    $category = new Category;
+    $item = $category->getById($id);
+    if (!$item) {
+        alert("Category Not Found!", false);
+        header("Location:" . url('admin/categories'));
+        exit;
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     // validate name is entered and valid (max:200)
     try {
 
-        $nameValidator = Validator::stringType()->length(1, 200);
-        $nameValidator->check($_POST['name']);
+        $passwordValidator = Validator::stringType()->length(1, 200);
+        $passwordValidator->check($_POST['name']);
 
         $name = clean_input($_POST['name']);
-        $category = new Category;
-        $category->create($name);
 
-        alert("Category Created Successfully!");        
+        $category->update($item['id'], $name);
+
+        alert("Category Updated Successfully!");
         header("Location:" . url('admin/categories'));
         exit;
     } catch (Exception $exception) {
         $errors['name'] = $exception->getMessage();
-        alert("Category Not Created!", false);  
+        alert("Category Not Updated!");
     }
 }
 
@@ -58,13 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <!--begin::Row-->
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="mb-0">Add New Category</h3>
+                            <h3 class="mb-0"> Edit Category</h3>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item"><a href="<?= url('admin/categories') ?>">Categories</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Add New Category </li>
+                                <li class="breadcrumb-item active" aria-current="page">Edit Category </li>
                             </ol>
                         </div>
                     </div>
@@ -94,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                                         <div class="mb-3">
                                             <label for="name" class="form-label">category Name </label>
-                                            <input type="text" name="name" class="form-control" id="name" />
+                                            <input type="text" name="name" class="form-control" id="name" value="<?= $item['name'] ?? "" ?>" />
                                             <?php if (isset($errors['name'])) { ?>
                                                 <small class="text-danger"><?= $errors['name'] ?></small>
                                             <?php } ?>

@@ -1,6 +1,4 @@
-<?php 
-auth();
-?>
+<?php auth(); ?>
 
 
 <head>

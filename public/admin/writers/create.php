@@ -1,17 +1,70 @@
 <?php
 require_once __DIR__ . "/../../../session.php";
+require_once path("/classes/Writer.php");
 
+use Classes\Writer;
+use Respect\Validation\Validator;
+use Respect\Validation\Exceptions\Exception;
 
-require_once path("/classes/Category.php");
+$errors = [];
 
-use Classes\Category;
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    try {
+        $namevalidator = Validator::stringType()->notOptional()->setName("Name")->length(1, 100)->check($_POST['name']);
+    } catch (Exception $exception) {
+        $errors['name'] = $exception->getMessage();
+    }
 
-$category = new Category;
-$categories = $category->getAll();
+    try {
+        $jobTitlevalidator = Validator::stringType()->notOptional()->setName("Job Title")->length(1, 100)->check($_POST['job_title']);
+    } catch (Exception $exception) {
+        $errors['job_title'] = $exception->getMessage();
+    }
+
+    try {
+        $aboutValidator = Validator::stringType()->notOptional()->setName("About")->length(1, 100)->check($_POST['about']);
+    } catch (Exception $exception) {
+        $errors['about'] = $exception->getMessage();
+    }
+
+    try {
+        $file = $_FILES['image'];
+        $uploadedFile = $file['tmp_name'];
+        if ($file['error'] === 0) {
+            $imageValidator = Validator::image()->notOptional()->size('1KB', '2MB')->setName("Images")->validate($uploadedFile);
+        } else {
+            $errors['image'] = "Image is not optional!";
+        }
+    } catch (Exception $exception) {
+        $errors['image'] = $exception->getMessage();
+    }
+
+    if (count($errors)) {
+        alert("There are some invalid data, please correct it", false);
+    } else {
+        $name = clean_input($_POST['name']);
+        $job_title = clean_input($_POST['job_title']);
+        $about = clean_input($_POST['about']);
+
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $newName = uniqid('image_', true) . '.' . $extension;
+        $target =  path("/public/uploads/$newName");
+
+        if (!move_uploaded_file($file['tmp_name'], $target)) {
+            $errors['image'] = "File uploaded successfully!";
+        } else {
+            $writer = new Writer;
+            $writer->create($name, $job_title, $about, "uploads/$newName");
+
+            alert("Writer Created Successfully!");
+            header("Location:" . url('admin/writers'));
+            exit;
+        }
+    }
+}
 
 
 ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -29,6 +82,7 @@ $categories = $category->getAll();
         <!--end::Sidebar-->
         <!--begin::App Main-->
         <main class="app-main">
+            <?php require_once path("/public/admin/templates/alert.php") ?>
             <!--begin::App Content Header-->
             <div class="app-content-header">
                 <!--begin::Container-->
@@ -65,25 +119,31 @@ $categories = $category->getAll();
                                 </div>
                                 <!--end::Header-->
                                 <!--begin::Form-->
-                                <form>
+                                <form method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
+
                                     <!--begin::Body-->
                                     <div class="card-body">
 
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Name </label>
-                                            <input type="text" class="form-control" id="name" />
+                                            <input type="text" name="name" class="form-control" id="name" />
+                                            <?= inputError($errors, 'name') ?>
                                         </div>
                                         <div class="mb-3">
                                             <label for="job_title" class="form-label">Job Title </label>
-                                            <input type="text" class="form-control" id="job_title" />
+                                            <input type="text" name="job_title" class="form-control" id="job_title" />
+                                            <?= inputError($errors, 'job_title') ?>
                                         </div>
                                         <div class="mb-3">
                                             <label for="about" class="form-label">About </label>
-                                            <textarea class="form-control" id="about" rows="3"></textarea>
+                                            <textarea class="form-control" name="about" id="about" rows="3"></textarea>
+                                            <?= inputError($errors, 'about') ?>
                                         </div>
                                         <div class="mb-3">
                                             <label for="image" class="form-label">Image</label>
-                                            <input type="file" class="form-control" id="image" />
+                                            <input type="file" name="image" class="form-control" id="image" />
+                                            <?= inputError($errors, 'image') ?>
                                         </div>
                                     </div>
                                     <!--end::Body-->

@@ -29,6 +29,7 @@ $categories = $category->getAll();
         <!--end::Sidebar-->
         <!--begin::App Main-->
         <main class="app-main">
+            <?php require_once path("/public/admin/templates/alert.php") ?>
             <!--begin::App Content Header-->
             <div class="app-content-header">
                 <!--begin::Container-->

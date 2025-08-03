@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once path("/session.php");
+require_once __DIR__ . '/../session.php';
 require_once path("/classes/User.php");
 
 use Classes\User;
@@ -24,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         $email = clean_input($_POST['email']);
         $password = clean_input($_POST['password']);
-
 
         $user = new User;
         $output = $user->getByEmail($email);
@@ -67,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <!--begin::Accessibility Features-->
     <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
-    <link rel="preload" href="../assets/admin/css/adminlte.css" as="style" />
+    <link rel="preload" href="<?= url("/assets/admin/css/adminlte.css") ?>" as="style" />
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
     <link
@@ -91,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         crossorigin="anonymous" />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="../assets/admin/css/adminlte.css" />
+    <link rel="stylesheet" href="<?= url("/assets/admin/css/adminlte.css") ?>" />
     <!--end::Required Plugin(AdminLTE)-->
 </head>
 <!--end::Head-->
@@ -156,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
         crossorigin="anonymous"></script>
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="../assets/admin/js/adminlte.js"></script>
+    <script src="<?= url("/assets/admin/js/adminlte.js") ?>"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
         const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
