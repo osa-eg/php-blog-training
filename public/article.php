@@ -1,7 +1,18 @@
 <?php 
-require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/../session.php";
+require_once path("/classes/Article.php");
+
+use Classes\Article;
+
 $title = "ModernBlog - Thoughtful Stories & Insights"; 
+$id = (int) $_GET['id'] ?? null;
+if (!$id) {
+    header("Location:" . url('/'));
+    exit;
+} else {
+$articleModel = new Article;
+$article = $articleModel->getById($id);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
@@ -17,29 +28,29 @@ $title = "ModernBlog - Thoughtful Stories & Insights";
                 <!-- Breadcrumb -->
                 <nav class="breadcrumb" data-aos="fade-up">
                     <a class="breadcrumb-item" href="index.html">Home</a>
-                    <a class="breadcrumb-item" href="#" data-category="technology">Technology</a>
-                    <span class="breadcrumb-item active">The Future of Remote Work</span>
+                    <a class="breadcrumb-item" href="#" data-category="<?= $article['category_name'] ?>"><?= $article['category_name'] ?></a>
+                    <span class="breadcrumb-item active"><?= $article['title'] ?></span>
                 </nav>
 
                 <div class="article-header">
                     <h1 class="article-detail-title" data-aos="fade-up" data-aos-delay="100">
-                        The Future of Remote Work: Trends and Predictions
+                        <?= $article['title'] ?>
                     </h1>
 
                     <div class="article-detail-meta" data-aos="fade-up" data-aos-delay="200">
                         <div class="d-flex align-items-center flex-wrap">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80"
-                                alt="Sarah Johnson" class="author-avatar">
+                            <img src="<?= $article['writer_image'] ?>"
+                                alt="<?= $article['writer_name'] ?>" class="author-avatar">
                             <div class="author-info">
-                                <div class="fw-semibold">Sarah Johnson</div>
-                                <div class="small">Senior Technology Writer</div>
+                                <div class="fw-semibold"><?= $article['writer_name'] ?></div>
+                                <div class="small"><?= $article['writer_job_title'] ?></div>
                             </div>
                             <div class="article-meta-items">
                                 <span>
-                                    <i class="bi bi-calendar3"></i>March 15, 2024
+                                    <i class="bi bi-calendar3"></i><?=date('M d, Y', strtotime(htmlspecialchars($article['created_at']))) ?>
                                 </span>
                                 <span>
-                                    <i class="bi bi-clock"></i>8 min read
+                                    <i class="bi bi-clock"></i><?= htmlspecialchars($article['read_duration']) ?> min read
                                 </span>
                             </div>
                         </div>
@@ -54,89 +65,11 @@ $title = "ModernBlog - Thoughtful Stories & Insights";
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <!-- Featured Image -->
-                <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                    alt="Remote work setup" class="article-detail-image" data-aos="fade-up">
+                <img <?= url(htmlspecialchars($article['image'])) ?>" alt="<?= htmlspecialchars($article['title']) ?>" class="article-detail-image" data-aos="fade-up">
 
                 <!-- Article Content -->
                 <div class="article-detail-content" data-aos="fade-up" data-aos-delay="200">
-                    <p class="lead">
-                        The landscape of work has undergone a seismic shift in recent years, with remote work transitioning from a rare perk to a mainstream reality. As we look toward the future, it's clear that this transformation is far from over.
-                    </p>
-
-                    <p>
-                        The pandemic accelerated a trend that was already gaining momentum, forcing organizations worldwide to adapt to distributed teams and flexible work arrangements. What started as an emergency measure has evolved into a strategic advantage for many companies.
-                    </p>
-
-                    <h2>The Rise of Hybrid Work Models</h2>
-
-                    <p>
-                        One of the most significant trends emerging is the hybrid work model. This approach combines the benefits of remote work with the collaborative advantages of in-person interactions. Companies are discovering that this flexibility not only improves employee satisfaction but also expands their talent pool beyond geographical constraints.
-                    </p>
-
-                    <blockquote>
-                        "The future of work isn't about choosing between remote or office-based environments—it's about creating flexible systems that adapt to the needs of both employees and businesses."
-                    </blockquote>
-
-                    <h3>Key Benefits of Hybrid Models</h3>
-
-                    <ul>
-                        <li><strong>Increased Productivity:</strong> Employees can work in environments where they're most effective</li>
-                        <li><strong>Better Work-Life Balance:</strong> Reduced commute time and flexible schedules</li>
-                        <li><strong>Cost Savings:</strong> Lower overhead for companies and reduced expenses for employees</li>
-                        <li><strong>Access to Global Talent:</strong> Companies can hire the best candidates regardless of location</li>
-                    </ul>
-
-                    <h2>Technology Driving Remote Collaboration</h2>
-
-                    <p>
-                        The backbone of successful remote work lies in technology. Advanced collaboration tools, cloud computing, and artificial intelligence are making distributed teams more effective than ever before.
-                    </p>
-
-                    <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                        alt="Video conference meeting" class="img-fluid rounded my-4" data-aos="zoom-in">
-
-                    <p>
-                        Video conferencing platforms have evolved beyond simple meeting tools, incorporating features like virtual whiteboards, breakout rooms, and real-time collaboration capabilities. Project management software now offers sophisticated workflows that keep distributed teams aligned and productive.
-                    </p>
-
-                    <h2>Challenges and Solutions</h2>
-
-                    <p>
-                        Despite its advantages, remote work isn't without challenges. Issues like communication gaps, maintaining company culture, and ensuring cybersecurity require thoughtful solutions.
-                    </p>
-
-                    <h3>Communication and Culture</h3>
-
-                    <p>
-                        Successful remote organizations invest heavily in communication protocols and virtual team-building activities. Regular check-ins, virtual coffee breaks, and online social events help maintain the human connection that's essential for team cohesion.
-                    </p>
-
-                    <h3>Security Considerations</h3>
-
-                    <p>
-                        As work becomes increasingly distributed, cybersecurity becomes paramount. Companies are implementing zero-trust security models, providing secure VPN access, and training employees on best practices for remote work security.
-                    </p>
-
-                    <h2>Looking Ahead: The Next Decade</h2>
-
-                    <p>
-                        As we look toward the future, several trends are shaping the evolution of remote work:
-                    </p>
-
-                    <ol>
-                        <li><strong>AI-Powered Productivity:</strong> Artificial intelligence will streamline routine tasks and enhance decision-making</li>
-                        <li><strong>Virtual Reality Meetings:</strong> Immersive technologies will make remote collaboration feel more natural</li>
-                        <li><strong>Outcome-Based Performance:</strong> Focus will shift from hours worked to results achieved</li>
-                        <li><strong>Global Workforce Integration:</strong> Time zone differences will become less of a barrier through asynchronous collaboration tools</li>
-                    </ol>
-
-                    <p>
-                        The future of remote work is bright, with endless possibilities for innovation and improvement. Organizations that embrace this transformation and invest in the right tools and culture will find themselves at a significant competitive advantage.
-                    </p>
-
-                    <p>
-                        As we continue to navigate this new landscape, one thing is clear: remote work is not just a temporary adjustment—it's the foundation of the future workplace.
-                    </p>
+                  <?= html_entity_decode($article['description']) ?>
                 </div>
 
                 <!-- Share Buttons -->
@@ -157,14 +90,14 @@ $title = "ModernBlog - Thoughtful Stories & Insights";
                 <div class="author-bio" data-aos="fade-up">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80"
-                                alt="Sarah Johnson" class="author-bio-avatar">
+                            <img src="<?= htmlspecialchars($article['image']) ?>"
+                                alt="<?= htmlspecialchars($article['writer_name']) ?>" class="author-bio-avatar">
                         </div>
                         <div class="col">
-                            <h5 class="mb-2">Sarah Johnson</h5>
-                            <p class="text-muted mb-2">Senior Technology Writer</p>
+                            <h5 class="mb-2"><?= htmlspecialchars($article['writer_name'] )?></h5>
+                            <p class="text-muted mb-2"><?= htmlspecialchars($article['writer_job_title'] )?></p>
                             <p class="mb-0">
-                                Sarah is a technology journalist with over 8 years of experience covering emerging trends in the digital workplace. She specializes in remote work technologies and organizational transformation.
+                            <?= htmlspecialchars($article['writer_about']) ?>    
                             </p>
                         </div>
                     </div>

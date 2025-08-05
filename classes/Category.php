@@ -31,7 +31,12 @@ class Category
     // 3️⃣ Read - Get category by ID
     public function getById($id)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM categories WHERE id = ?");
+        $stmt = $this->conn->prepare("SELECT 
+        categories.*,
+        COUNT(articles.id) as articles_count
+        FROM categories 
+        LEFT JOIN articles ON categories.id = articles.category_id
+        WHERE categories.id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         

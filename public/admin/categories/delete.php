@@ -13,6 +13,7 @@ if (!$id) {
 } else {
     $category = new Category;
     $item = $category->getById($id);
+    
     if (!$item) {
         alert("Category Not Found!", false);
         header("Location:" . url('admin/categories'));
@@ -22,6 +23,11 @@ if (!$id) {
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     try {
+        if($item['articles_count']){
+            alert("Category Can Not Be Deleted Because It Has Some Articles!",false);
+            header("Location:" . url('admin/categories'));
+            exit;
+        }
         $category->delete($item['id']);
 
         alert("Category Deleted Successfully!");

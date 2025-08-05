@@ -33,7 +33,12 @@ class writer
     // 3️⃣ Read - Get writer by ID
     public function getById($id)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM writers WHERE id = ?");
+        $stmt = $this->conn->prepare("SELECT 
+        writers.*,
+        COUNT(articles.id) as articles_count
+        FROM writers 
+        LEFT JOIN articles ON writers.id = articles.writer_id
+        WHERE writers.id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
 
@@ -45,8 +50,7 @@ class writer
     public function update($id, $name, $job_title, $about, $image)
     {
         $stmt = $this->conn->prepare("UPDATE writers SET name = ? , job_title = ? , about = ? ,image = ? WHERE id = ?");
-        $stmt->bind_param("ssss", $name, $job_title, $about, $image);
-        $stmt->bind_param("si", $name, $id);
+        $stmt->bind_param("ssssi", $name, $job_title, $about, $image, $id);
         return $stmt->execute();
     }
 

@@ -2,15 +2,12 @@
 require_once __DIR__ . "/../../../session.php";
 
 
-require_once path("/classes/Category.php");
-require_once path("/classes/User.php");
+require_once path("/classes/Article.php");
 
-use Classes\Category;
-use Classes\User;
+use Classes\Article;
 
-$category = new Category;
-$categories = $category->getAll();
-
+$article = new Article;
+$articles = $article->getAll();
 
 ?>
 
@@ -62,7 +59,7 @@ $categories = $category->getAll();
                         <div class="card-header ">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">All Categories</h3>
-                                <a href="./create_category.php" class="btn btn-primary"> Add New Article</a>
+                                <a href="<?= url("admin/articles/create.php") ?>" class="btn btn-primary"> Add New Article</a>
                             </div>
 
 
@@ -75,37 +72,57 @@ $categories = $category->getAll();
                                         <th style="width: 10px">#</th>
                                         <th> Title</th>
                                         <th> Category</th>
-                                        <th> Wrtier </th>
+                                        <th> Writer </th>
                                         <th> Read Duration </th>
                                         <th> Created At </th>
                                         <th style="width: 40px">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php for ($i = 0; $i < 10; $i++) : ?>
+                                    <?php foreach ($articles as $article) : ?>
                                         <tr class="align-middle">
-                                            <td><?= $i + 1 ?></td>
-                                            <td>Title <?= $i + 1 ?></td>
-                                            <td>Category <?= $i + 1 ?> Name</td>
-                                            <td>Writer <?= $i + 1 ?> Name</td>
-                                            <td> <?= random_int(3, 13) ?> Min</td>
-                                            <td>11-05-2025 12:10PM</td>
-
+                                            <td><?= $article['id'] ?></td>
+                                            <td><?= $article['title'] ?></td>
+                                            <td><?= $article['category_name']??"" ?></td>
+                                            <td><?= $article['writer_name']??"" ?></td>
+                                            <td><?= $article['read_duration'] ?></td>
+                                            <td><?= date('Y-m-d H:i A', strtotime($article['created_at'])) ?></td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <a href="" class="btn btn-primary btn-sm">
-                                                        <i class="bi bi-eye"></i>
-                                                    </a>
-                                                    <a href="" class="btn btn-info btn-sm">
+                                                 <div class="btn-group">
+                                                    <a href="<?= url("admin/articles/edit.php?id=" . $article['id']) ?>" class="btn btn-info btn-sm">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
-                                                    <a href="" class="btn btn-danger btn-sm">
+
+                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-<?= $article['id'] ?>-modal">
                                                         <i class="bi bi-trash"></i>
-                                                    </a>
+                                                    </button>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="delete-<?= $article['id'] ?>-modal" tabindex="-1" aria-labelledby="delete-<?= $article['id'] ?>-modal" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="POST" action="<?= htmlspecialchars(url("admin/articles/delete.php?id=" . $article['id'])) ?>" class="modal-content">
+                                                                <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="text-center text-danger">
+                                                                        <i class="bi  bi-exclamation-triangle-fill text-danger" style="font-size:10rem !important"></i>
+                                                                        <p style="font-size:24px; font-weight:bold; "> Are You Sure You Want to Delete "<?= $article['title'] ?>" Article?! </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                    <?php endfor; ?>
+                                    <?php endforeach; ?>
 
                                 </tbody>
                             </table>

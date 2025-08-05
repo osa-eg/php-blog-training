@@ -74,16 +74,17 @@ $writers = $writer->getAll();
                                         <th style="width: 10px">#</th>
                                         <th>Writer</th>
                                         <th>About</th>
+                                        <th>Created At</th>
                                         <th style="width: 40px">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <?php foreach ($writers as $writer) : ?>
+                                    <?php foreach ($writers as $writer) : ?>
                                         <tr class="align-middle">
                                             <td><?= $writer['id'] ?></td>
-                                            <td> 
+                                            <td>
                                                 <div class="d-flex">
-                                                    <img width="50" height="50" class="img-thumbnail rounded-circle"  src="<?= url($writer['image']) ?>" alt="">
+                                                    <img style="width:60px; height: 60px;" class="img-thumbnail rounded-circle" src="<?= url($writer['image']) ?>" alt="">
                                                     <div class="p-2">
                                                         <span class="d-block"><?= $writer['name'] ?></span>
                                                         <small><?= $writer['job_title'] ?></small>
@@ -91,17 +92,42 @@ $writers = $writer->getAll();
                                                 </div>
                                             </td>
                                             <td><?= $writer['about'] ?></td>
+                                            <td><?= date('Y-m-d H:i A', strtotime($writer['created_at'])) ?></td>
+
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="" class="btn btn-primary btn-sm">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
-                                                    <a href="" class="btn btn-info btn-sm">
+                                                     <a href="<?= url("admin/writers/edit.php?id=" . $writer['id']) ?>" class="btn btn-info btn-sm">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
-                                                    <a href="" class="btn btn-danger btn-sm">
+                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-<?= $writer['id'] ?>-modal">
                                                         <i class="bi bi-trash"></i>
-                                                    </a>
+                                                    </button>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="delete-<?= $writer['id'] ?>-modal" tabindex="-1" aria-labelledby="delete-<?= $writer['id'] ?>-modal" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form method="POST" action="<?= htmlspecialchars(url("admin/writers/delete.php?id=" . $writer['id'])) ?>" class="modal-content">
+                                                                <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="text-center text-danger">
+                                                                        <i class="bi  bi-exclamation-triangle-fill text-danger" style="font-size:10rem !important"></i>
+                                                                        <p style="font-size:24px; font-weight:bold; "> Are You Sure You Want to Delete "<?= $writer['name'] ?>"? </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>

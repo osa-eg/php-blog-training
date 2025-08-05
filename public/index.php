@@ -1,7 +1,17 @@
 <?php 
-require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/../session.php";
+require_once path("/classes/Category.php");
+require_once path("/classes/Article.php");
+
+use Classes\Category;
+use Classes\Article;
+
 $title = "ModernBlog - Thoughtful Stories & Insights"; 
+
+$categoryModel = new Category;
+$articleModel = new Article;
+$categories = $categoryModel->getAll();
+$articles = $articleModel->getAll(category_id: $_GET['category_id']??null);
 ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
@@ -120,49 +130,46 @@ $title = "ModernBlog - Thoughtful Stories & Insights";
     <section class="category-filter">
         <div class="container">
             <div class="category-scroll d-flex">
-                <a href="#" class="category-btn active" data-category="all">All Articles</a>
-                <a href="#" class="category-btn" data-category="technology">Technology</a>
-                <a href="#" class="category-btn" data-category="design">Design</a>
-                <a href="#" class="category-btn" data-category="lifestyle">Lifestyle</a>
-                <a href="#" class="category-btn" data-category="travel">Travel</a>
-                <a href="#" class="category-btn" data-category="business">Business</a>
-                <a href="#" class="category-btn" data-category="health">Health & Wellness</a>
+                <a href="<?= url('') ?>" class="category-btn <?= !isset($_GET['category_id'])?'active' :'' ?>" data-category="all">All Articles</a>
+                <?php foreach($categories as $category) { ?>
+                <a href="<?= url("?category_id=".$category['id']) ?>" class="category-btn  <?= isset($_GET['category_id']) && $_GET['category_id'] == $category['id'] ?"active" :"" ?>"" data-category="<?= htmlspecialchars($category['name'] )?>"><?= htmlspecialchars($category['name']) ?></a>
+                <?php } ?>
             </div>
         </div>
     </section>
 
     <!-- Articles Section -->
     <section class="articles-section">
-        <div class="container">
+        <div class="container py-3">
             <h2 class="section-title" data-aos="fade-up">Latest Articles</h2>
 
-            <div class="row g-4">
-                <?php for ($i = 1; $i <= 6; $i++) { ?>
+            <div class="row g-4 m-5 py-5">
+                <?php foreach($articles  as $article) { ?>
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
                         <article class="article-card">
                             <div class="article-image">
-                                <img src="https://images.unsplash.com/photo-1518186233392-c232efbf2373?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="The Rise of AI in Creative Industries">
-                                <div class="category-badge">Technology</div>
+                                <img src="<?= url(htmlspecialchars($article['image'])) ?>" alt="<?= htmlspecialchars($article['title']) ?>">
+                                <div class="category-badge"><?= htmlspecialchars($article['category_name']) ?></div>
                             </div>
                             <div class="article-content">
                                 <div class="article-meta">
-                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="David Kim" class="author-avatar">
+                                    <img src="<?= url(htmlspecialchars($article['writer_image'])) ?>" alt="<?= htmlspecialchars($article['writer_name']) ?>" class="author-avatar">
                                     <div>
-                                        <div class="fw-medium">David Kim</div>
-                                        <div class="small">March 8, 2024</div>
+                                        <div class="fw-medium"><?= htmlspecialchars($article['writer_name']) ?></div>
+                                        <div class="small"><?=date('M d, Y', strtotime(htmlspecialchars($article['created_at']))) ?></div>
                                     </div>
                                 </div>
                                 <h3 class="article-title">
-                                    <a href="article.html">The Rise of AI in Creative Industries</a>
+                                    <a href="<?= url('article.php?id='.$article['id']) ?>"><?= htmlspecialchars($article['title']) ?></a>
                                 </h3>
                                 <p class="article-excerpt">
                                     Explore how artificial intelligence is transforming creative workflows and what it means for artists and designers in the digital age.
                                 </p>
                                 <div class="article-footer">
                                     <span class="read-time">
-                                        <i class="bi bi-clock me-1"></i>6 min read
+                                        <i class="bi bi-clock me-1"></i><?= htmlspecialchars($article['read_duration']) ?> min read
                                     </span>
-                                    <a href="article.php" class="btn-read-more">
+                                    <a href="<?= url('article.php?id='.$article['id']) ?>" class="btn-read-more">
                                         Read More <i class="bi bi-arrow-right"></i>
                                     </a>
                                 </div>
@@ -174,19 +181,6 @@ $title = "ModernBlog - Thoughtful Stories & Insights";
         </div>
     </section>
 
-    <!-- Enhanced Load More Section -->
-    <section class="load-more-section">
-        <div class="container py-5">
-            <p class="load-more-hint">Discover more insightful articles</p>
-            <button class="btn btn-load-more" id="loadMoreBtn" data-aos="fade-up">
-                <span class="btn-text">Load More Articles</span>
-                <span class="btn-loading d-none">
-                    <span class="spinner-border spinner-border-sm me-2"></span>
-                    Loading...
-                </span>
-            </button>
-        </div>
-    </section>
 
 
     <?php require_once "../templates/newsletter.php" ?>

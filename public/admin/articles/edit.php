@@ -10,6 +10,21 @@ use Classes\Writer;
 use Respect\Validation\Validator;
 use Respect\Validation\Exceptions\Exception;
 
+$id = (int) $_GET['id'] ?? null;
+if (!$id) {
+    alert("Writer ID Not Presented!", false);
+    header("Location:" . url('admin/articles'));
+    exit;
+} else {
+    $article = new Article;
+    $item = $article->getById($id);
+    if (!$item) {
+        alert("Article Not Found!", false);
+        header("Location:" . url('admin/articles'));
+        exit;
+    }
+}
+
 $errors = [];
 $category = new Category;
 $categories = $category->getAll();
@@ -50,13 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $errors['description'] = $exception->getMessage();
     }
 
+
     try {
         $file = $_FILES['image'];
         $uploadedFile = $file['tmp_name'];
         if ($file['error'] === 0) {
-            $imageValidator = Validator::image()->notOptional()->size('1KB', '5MB')->setName("Image")->validate($uploadedFile);
-        } else {
-            $errors['image'] = "Image is not optional!";
+            $imageValidator = Validator::image()->notOptional()->size('1KB', '2MB')->setName("Images")->validate($uploadedFile);
         }
     } catch (Exception $exception) {
         $errors['image'] = $exception->getMessage();
@@ -70,23 +84,30 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $writer_id = clean_input($_POST['writer_id']);
         $category_id = clean_input($_POST['category_id']);
         $description = clean_input($_POST['description']);
+        $image_path = $item['image'];
 
-        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-        $newName = uniqid('article_', true) . '.' . $extension;
-        $target = path("/public/uploads/$newName");
+        if ($uploadedFile) {
+            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $newName = uniqid('image_', true) . '.' . $extension;
+            $target =  path("/public/uploads/$newName");
 
-        if (!move_uploaded_file($file['tmp_name'], $target)) {
-            $errors['image'] = "Failed to upload image!";
+            if (!move_uploaded_file($file['tmp_name'], $target)) {
+                $errors['image'] = "File not uploaded successfully!";
+            } else {
+                $image_path = "uploads/$newName";
+            }
+        }
+        if (count($errors)) {
+            alert("There are some invalid data, please correct it", false);
         } else {
-            $article = new Article;
-            $article->create(title: $title, read_duration: $duration, writer_id: $writer_id, category_id: $category_id, description: $description, image: "uploads/$newName");
-
-            alert("Article Created Successfully!");
+            $article->update(id: $id ,title: $title, read_duration: $duration, writer_id: $writer_id, category_id: $category_id, description: $description, image: $image_path);
+            alert("Article Updated Successfully!");
             header("Location:" . url('admin/articles'));
             exit;
         }
     }
 }
+
 
 
 
@@ -152,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="title" class="form-label">Title </label>
-                                                    <input type="text" name="title" class="form-control" id="title" value="<?= isset($_POST['title']) ? htmlspecialchars($_POST['title']) : '' ?>" />
+                                                    <input type="text" name="title" class="form-control" id="title" value="<?= isset($_POST['title']) ? htmlspecialchars($_POST['title']) : $item['title']??"" ?>" />
                                                     <?= inputError($errors, 'title') ?>
                                                 </div>
                                             </div>
@@ -160,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                                 <div class="mb-3">
                                                     <label for="duration" class="form-label">Read Duration </label>
                                                     <div class="input-group mb-3">
-                                                        <input type="number" name="duration" min="1" max="120" class="form-control" id="duration" aria-describedby="basic-addon2" value="<?= isset($_POST['duration']) ? htmlspecialchars($_POST['duration']) : '' ?>">
+                                                        <input type="number" name="duration" min="1" max="120" class="form-control" id="duration" aria-describedby="basic-addon2" value="<?= isset($_POST['duration']) ? htmlspecialchars($_POST['duration']) : $item['read_duration']??"" ?>">
                                                         <span class="input-group-text" id="basic-addon2">Minutes</span>
                                                     </div>
                                                     <?= inputError($errors, 'duration') ?>
@@ -175,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                                     <select name="writer_id" id="writer_id" class="form-control">
                                                         <option value="">Select Writer</option>
                                                         <?php foreach ($writers as $writer): ?>
-                                                            <option value="<?= $writer['id'] ?>" <?= (isset($_POST['writer_id']) && $_POST['writer_id'] == $writer['id']) ? 'selected' : '' ?>>
+                                                            <option value="<?= $writer['id'] ?>" <?= (isset($_POST['writer_id']) && $_POST['writer_id'] == $writer['id'] || $item['writer_id'] == $writer['id'] ) ? 'selected' : '' ?>>
                                                                 <?= htmlspecialchars($writer['name']) ?>
                                                             </option>
                                                         <?php endforeach; ?>
@@ -189,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                                     <select name="category_id" id="category_id" class="form-control">
                                                         <option value="">Select Category</option>
                                                         <?php foreach ($categories as $category): ?>
-                                                            <option value="<?= $category['id'] ?>" <?= (isset($_POST['category_id']) && $_POST['category_id'] == $category['id']) ? 'selected' : '' ?>>
+                                                            <option value="<?= $category['id'] ?>" <?= (isset($_POST['category_id']) && $_POST['category_id'] == $category['id'] || $item['category_id'] == $category['id']) ? 'selected' : '' ?>>
                                                                 <?= htmlspecialchars($category['name']) ?>
                                                             </option>
                                                         <?php endforeach; ?>
@@ -201,8 +222,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                                         <div class="mb-3">
                                             <label for="description" class="form-label">Description </label>
-                                            <textarea name="description" class="form-control" id="description" rows="3"><?= isset($_POST['description']) ? htmlspecialchars($_POST['description']) : '' ?></textarea>
+                                            <textarea name="description" class="form-control" id="description" rows="3"><?= isset($_POST['description']) ? htmlspecialchars($_POST['description']) : $item['description']??"" ?></textarea>
                                             <?= inputError($errors, 'description') ?>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="image" class="form-label d-block">Current Image</label>
+                                            <img style="width:600px; height: 200px;" class="img-thumbnail" src="<?= url($item['image']) ?>" alt="">
+
                                         </div>
                                         <div class="mb-3">
                                             <label for="image" class="form-label">Image</label>

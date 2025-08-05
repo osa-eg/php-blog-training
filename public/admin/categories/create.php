@@ -6,15 +6,18 @@ use Classes\Category;
 use Respect\Validation\Validator;
 use Respect\Validation\Exceptions\Exception;
 
+$errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-
-    // validate name is entered and valid (max:200)
     try {
+        $nameValidator = Validator::stringType()->notOptional()->setName("Name")->length(1, 200)->check($_POST['name']);
+    } catch (Exception $exception) {
+        $errors['name'] = $exception->getMessage();
+    }
 
-        $nameValidator = Validator::stringType()->length(1, 200);
-        $nameValidator->check($_POST['name']);
-
+    if (count($errors)) {
+        alert("There are some invalid data, please correct it", false);
+    } else {
         $name = clean_input($_POST['name']);
         $category = new Category;
         $category->create($name);
@@ -22,19 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         alert("Category Created Successfully!");        
         header("Location:" . url('admin/categories'));
         exit;
-    } catch (Exception $exception) {
-        $errors['name'] = $exception->getMessage();
-        alert("Category Not Created!", false);  
     }
 }
-
-
 ?>
 
 <!doctype html>
 <html lang="en">
-
-
 
 <!--begin::Head-->
 <?php require_once path("/public/admin/templates/master_head.php"); ?>
@@ -48,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         <!--end::Sidebar-->
         <!--begin::App Main-->
         <main class="app-main">
-            <?php require_once path("/public/admin/templates/alert.php") ?>
             <?php require_once path("/public/admin/templates/alert.php") ?>
 
             <!--begin::App Content Header-->
@@ -87,17 +82,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                 </div>
                                 <!--end::Header-->
                                 <!--begin::Form-->
-                                <form method="POST">
+                                <form method="post">
                                     <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
                                     <!--begin::Body-->
                                     <div class="card-body">
 
                                         <div class="mb-3">
-                                            <label for="name" class="form-label">category Name </label>
-                                            <input type="text" name="name" class="form-control" id="name" />
-                                            <?php if (isset($errors['name'])) { ?>
-                                                <small class="text-danger"><?= $errors['name'] ?></small>
-                                            <?php } ?>
+                                            <label for="name" class="form-label">Category Name </label>
+                                            <input type="text" name="name" class="form-control" id="name" value="<?= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '' ?>" />
+                                            <?= inputError($errors, 'name') ?>
                                         </div>
 
                                     </div>
@@ -119,8 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             </div>
         </main>
         <!--end::App Main-->
-        <!--end::App Main-->
-
 
         <?php require_once path("/public/admin/templates/master_footer.php") ?>
     </div>

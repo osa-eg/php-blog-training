@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS articles(
     category_id INT NOT NULL,
     title VARCHAR(250) NOT NULL,
     read_duration INT,
-    descreption TEXT,
+    description TEXT,
     image VARCHAR(100),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
